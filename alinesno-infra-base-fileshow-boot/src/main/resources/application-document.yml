@@ -1,0 +1,115 @@
+base:
+    url: ${KK_BASE_URL:default}
+beian: ${KK_BEIAN:default}
+cache:
+    clean:
+        cron: ${KK_CACHE_CLEAN_CRON:0 0 3 * * ?}
+        enabled: ${KK_CACHE_CLEAN_ENABLED:true}
+    enabled: ${KK_CACHE_ENABLED:true}
+    type: ${KK_CACHE_TYPE:jdk}
+cad:
+    preview:
+        type: ${KK_CAD_PREVIEW_TYPE:svg}
+    thread: ${KK_CAD_THREAD:5}
+    timeout: ${KK_CAD_TIMEOUT:90}
+convertMedias: ${KK_CONVERTMEDIAS:avi,mov,wmv,mkv,3gp,rm}
+delete:
+    captcha: ${KK_DELETE_CAPTCHA:false}
+    password: ${KK_DELETE_PASSWORD:123456}
+    source:
+        file: ${KK_DELETE_SOURCE_FILE:true}
+file:
+    dir: ${KK_FILE_DIR:default}
+    upload:
+        disable: ${KK_FILE_UPLOAD_ENABLED:false}
+ftp:
+    control:
+        encoding: ${KK_FTP_CONTROL_ENCODING:UTF-8}
+    password: ${KK_FTP_PASSWORD:123456}
+    username: ${KK_FTP_USERNAME:ftpuser}
+local:
+    preview:
+        dir: ${KK_LOCAL_PREVIEW_DIR:default}
+media: ${KK_MEDIA:mp3,wav,mp4,flv}
+media.convert.disable: ${KK_MEDIA_CONVERT_DISABLE:false}
+office:
+    documentopenpasswords: ${KK_OFFICE_DOCUMENTOPENPASSWORD:true}
+    exportbookmarks: ${KK_OFFICE_EXPORTBOOKMARKS:true}
+    exportnotes: ${KK_OFFICE_EXPORTNOTES:true}
+    home: ${KK_OFFICE_HOME:default}
+    maximageresolution: ${KK_OFFICE_MAXIMAGERESOLUTION:150}
+    pagerange: ${KK_OFFICE_PAGERANGE:false}
+    plugin:
+        server:
+            ports: 2001,2002
+        task:
+            timeout: 5m
+    preview:
+        switch:
+            disabled: ${KK_OFFICE_PREVIEW_SWITCH_DISABLED:false}
+        type: ${KK_OFFICE_PREVIEW_TYPE:image}
+    quality: ${KK_OFFICE_QUALITY:80}
+    type:
+        web: ${KK_OFFICE_TYPE_WEB:web}
+    watermark: ${KK_OFFICE_WATERMARK:false}
+pdf:
+    bookmark:
+        disable: ${KK_PDF_BOOKMARK_DISABLE:true}
+    download:
+        disable: ${KK_PDF_DOWNLOAD_DISABLE:true}
+    openFile:
+        disable: ${KK_PDF_OPEN_FILE_DISABLE:true}
+    presentationMode:
+        disable: ${KK_PDF_PRESENTATION_MODE_DISABLE:true}
+    print:
+        disable: ${KK_PDF_PRINT_DISABLE:true}
+pdf2jpg:
+    dpi: ${KK_PDF2JPG_DPI:144}
+prohibit: ${KK_PROHIBIT:exe,dll,dat}
+server:
+    compression:
+        enable: true
+        mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain,font/woff,application/font-woff,font/eot,image/svg+xml,image/x-icon
+        min-response-size: 2048
+    port: ${KK_SERVER_PORT:8012}
+    servlet:
+        context-path: ${KK_CONTEXT_PATH:/}
+        encoding:
+            charset: utf-8
+simText: ${KK_SIMTEXT:txt,html,htm,asp,jsp,xml,json,properties,md,gitignore,log,java,py,c,cpp,sql,sh,bat,m,bas,prg,cmd}
+spring:
+    freemarker:
+        cache: false
+        charset: UTF-8
+        check-template-location: true
+        content-type: text/html
+        expose-request-attributes: true
+        expose-session-attributes: true
+        request-context-attribute: request
+        suffix: .ftl
+        template-loader-path: classpath:/web/
+    redisson:
+        address: ${KK_SPRING_REDISSON_ADDRESS:127.0.0.1:6379}
+        password: ${KK_SPRING_REDISSON_PASSWORD:}
+    servlet:
+        multipart:
+            max-file-size: 500MB
+            max-request-size: 500MB
+tif:
+    preview:
+        type: ${KK_TIF_PREVIEW_TYPE:tif}
+trust:
+    host: ${KK_TRUST_HOST:default}
+watermark:
+    alpha: ${WATERMARK_ALPHA:0.2}
+    angle: ${WATERMARK_ANGLE:10}
+    color: ${WATERMARK_COLOR:black}
+    font: ${WATERMARK_FONT:????}
+    fontsize: ${WATERMARK_FONTSIZE:18px}
+    height: ${WATERMARK_HEIGHT:80}
+    txt: ${WATERMARK_TXT:}
+    width: ${WATERMARK_WIDTH:180}
+    x:
+        space: ${WATERMARK_X_SPACE:10}
+    y:
+        space: ${WATERMARK_Y_SPACE:10}
