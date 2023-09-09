@@ -3,5 +3,4 @@
 
 ## 鸣谢
 
-- 参考[file-preview](https://gitee.com/fqfa1226/file-preview)代码
-- 基于[kkFileView](https://gitee.com/kekingcn/file-online-preview)二次开发
+- 集成[ofdrw](https://gitee.com/ofdrw/ofdrw)框架
