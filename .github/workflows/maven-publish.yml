@@ -162,7 +162,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ ALIYUN_CR_REGISTORY }}/${{ ALIYUN_CR_NAMESPACE }}/${{ PROJECT_NAME }}:${{ env.PRO_VERSION }}.${{ env.BUILD_NUMBER }}'
+          image-ref: '${{ env.ALIYUN_CR_REGISTORY }}/${{ env.ALIYUN_CR_NAMESPACE }}/${{ env.PROJECT_NAME }}:${{ env.PRO_VERSION }}.${{ env.BUILD_NUMBER }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
