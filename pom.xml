@@ -25,12 +25,12 @@
         <module>alinesno-infra-base-fileshow-facade</module>  <!-- 接口和引用 -->
         <module>alinesno-infra-base-fileshow-domain</module>  <!-- 领域服务 -->
         <module>alinesno-infra-base-fileshow-adapter</module> <!-- 适配层 -->
-        <module>alinesno-infra-base-fileshow-api</module>  <!-- 接口服务 -->
+        <module>alinesno-infra-base-fileshow-gateway</module>  <!-- 接口服务 -->
         <module>alinesno-infra-base-fileshow-client</module>  <!-- 对外引用 -->
         <module>alinesno-infra-base-fileshow-boot</module>  <!-- 启动服务 -->
 
         <!-- 前端服务
-        <module>alinesno-infra-base-fileshow-admin</module>
+        <module>alinesno-infra-base-fileshow-ui</module>
         -->
     </modules>
 

@@ -33,7 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.alinesno.infra.base</groupId>
-			<artifactId>alinesno-infra-base-fileshow-api</artifactId>
+			<artifactId>alinesno-infra-base-fileshow-gateway</artifactId>
 			<version>${revision}</version>
 		</dependency>
 
