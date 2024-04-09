@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 /* Layout */
-//import Layout from '@/layout/SaaSLayout'
-import Layout from '@/layout'
+import Layout from '@/layout/SaaSLayout'
+// import Layout from '@/layout'
 
 /**
  * Note: 路由配置项
@@ -85,57 +85,39 @@ export const constantRoutes = [
         meta: { title: '学习手册', icon: 'dashboard', affix: true }
       },
 
-      // ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      
+      // >>>>>>>>>>>>>> smart_router_start >>>>>>>>>>>>>>>>>>>>>
       {
-        path: '/createGateway',
-        name: 'createGateway',
-        hidden: true,
-        component: () => import('@/views/gateway/createGateway'),
-        meta: { title: '创建网关服务', icon: 'dashboard', affix: true }
-      },
+        path: '/base/fileshow/application/index',
+        component: () => import('@/views/base/fileshow/application/index'),
+        name: '/base/fileshow/application/index',
+        meta: { title: '应用管理', icon: 'dashboard', affix: true }
+      }, 
       {
-        path: '/gatewayTopology',
-        name: 'gatewayTopology',
-        hidden: true,
-        component: () => import('@/views/gateway/gatewayTopology'),
-        meta: { title: '网关路由拓扑结构', icon: 'dashboard', affix: true }
-      },
+        path: '/base/fileshow/model/index',
+        component: () => import('@/views/base/fileshow/model/index'),
+        name: '/base/fileshow/model/index',
+        meta: { title: '模型管理', icon: 'dashboard', affix: true }
+      }, 
       {
-        path: '/createClient',
-        name: 'createClient',
-        hidden: true,
-        component: () => import('@/views/gateway/createClient'),
-        meta: { title: '创建客户端', icon: 'dashboard', affix: true }
-      },
+        path: '/base/fileshow/analyse/index',
+        component: () => import('@/views/base/fileshow/analyse/index'),
+        name: '/base/fileshow/analyse/index',
+        meta: { title: '识别分析', icon: 'dashboard', affix: true }
+      }, 
       {
-        path: '/addGatewayClient',
-        name: 'addGatewayClient',
-        hidden: true,
-        component: () => import('@/views/gateway/addGatewayClient'),
-        meta: { title: '添加网关客户端', icon: 'dashboard', affix: true }
-      },
+        path: '/base/fileshow/config/index',
+        component: () => import('@/views/base/fileshow/config/index'),
+        name: '/base/fileshow/config/index',
+        meta: { title: '认证配置', icon: 'dashboard', affix: true }
+      }, 
       {
-        path: '/addClientGateway',
-        name: 'addClientGateway',
-        hidden: true,
-        component: () => import('@/views/gateway/addClientGateway'),
-        meta: { title: '添加客户端网关', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/addGroovyScript',
-        name: 'addGroovyScript',
-        hidden: true,
-        component: () => import('@/views/gateway/addGroovyScript'),
-        meta: { title: '添加规则组件', icon: 'dashboard', affix: true }
-      },
-      {
-        path: '/createBalanced',
-        name: 'createBalanced',
-        hidden: true,
-        component: () => import('@/views/gateway/createBalanced'),
-        meta: { title: '创建负载均衡', icon: 'dashboard', affix: true }
-      },
-
+        path: '/base/fileshow/apiRecord/index',
+        component: () => import('@/views/base/fileshow/apiRecord/index'),
+        name: '/base/fileshow/apiRecord/index',
+        meta: { title: '日志记录', icon: 'dashboard', affix: true }
+      }
+      // >>>>>>>>>>>>>> smart_router_end   >>>>>>>>>>>>>>>>>>>>> 
 
     ]
   },

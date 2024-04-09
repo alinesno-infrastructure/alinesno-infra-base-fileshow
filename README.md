@@ -36,5 +36,6 @@
 | 13   | video              | 视频文件     |      |      |
 | 14   | mp3                | 音频文件     |      |      |
 
-## 版权信息
-该项目使用 Apache License 2.0 协议。
+## 鸣谢
+
+- 预览部分通过[kkFileView](https://gitee.com/kekingcn/file-online-preview)进行的二次开发，集成思路亦参考之
