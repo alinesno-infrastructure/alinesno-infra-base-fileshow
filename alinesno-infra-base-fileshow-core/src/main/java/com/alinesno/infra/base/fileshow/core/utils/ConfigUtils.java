@@ -11,7 +11,7 @@ import java.util.Properties;
  **/
 public class ConfigUtils {
 
-    private static final String MAIN_DIRECTORY_NAME = "server";
+    private static final String MAIN_DIRECTORY_NAME = "alinesno-infra-base-fileshow-boot";
 
     public static String getHomePath() {
         String userDir = System.getenv("KKFILEVIEW_BIN_FOLDER");

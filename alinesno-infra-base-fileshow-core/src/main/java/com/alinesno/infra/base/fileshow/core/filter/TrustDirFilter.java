@@ -6,8 +6,6 @@ import io.mola.galimatias.GalimatiasParseException;
 import jakarta.servlet.*;
 import lombok.extern.slf4j.Slf4j;
 import org.jodconverter.core.util.OSUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -31,7 +29,7 @@ public class TrustDirFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        ClassPathResource classPathResource = new ClassPathResource("web/notTrustDir.html");
+        ClassPathResource classPathResource = new ClassPathResource("pages/notTrustDir.html");
         try {
             classPathResource.getInputStream();
             byte[] bytes = FileCopyUtils.copyToByteArray(classPathResource.getInputStream());

@@ -50,3 +50,5 @@ node_modules
 
 /.vertx/
 
+/alinesno-infra-base-fileshow-boot/src/main/file/
+/alinesno-infra-base-fileshow-boot/src/main/cache/
