@@ -13,6 +13,10 @@
 	<artifactId>alinesno-infra-base-fileshow-boot</artifactId>
 	<packaging>jar</packaging>
 
+	<properties>
+		<docker.base.images>registry.cn-shenzhen.aliyuncs.com/alinesno-infra-base/openjdk-showfile:17</docker.base.images>
+	</properties>
+
 	<dependencies>
 
         <!-- 引用服务 -->
