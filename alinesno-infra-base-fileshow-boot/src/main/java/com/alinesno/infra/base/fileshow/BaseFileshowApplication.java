@@ -2,9 +2,11 @@ package com.alinesno.infra.base.fileshow;
 
 import com.alinesno.infra.common.facade.enable.EnableActable;
 import com.alinesno.infra.common.web.adapter.sso.enable.EnableInfraSsoApi;
+import com.alinesno.infra.common.web.log.aspect.LogAspect;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -21,6 +23,11 @@ public class BaseFileshowApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BaseFileshowApplication.class, args);
+	}
+
+	@Bean
+	public LogAspect getLogAspect(){
+		return new LogAspect() ;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.alinesno.infra.base.fileshow.entity;
 
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,13 +21,23 @@ public class DocumentTypeEntity extends InfraBaseEntity {
      */
     @ColumnType(length = 32)
     @ColumnComment("类型名称")
+    @TableField
     private String typeName;
+
+    /**
+     * 类型描述
+     */
+    @ColumnType(length = 256)
+    @ColumnComment("类型名称")
+    @TableField
+    private String typeDesc;
 
     /**
      * 图标
      */
     @ColumnType(length = 32)
     @ColumnComment("图标")
+    @TableField
     private String icon;
 
     /**
@@ -34,6 +45,7 @@ public class DocumentTypeEntity extends InfraBaseEntity {
      */
     @ColumnType(length = 1)
     @ColumnComment("是否打开")
+    @TableField
     private Boolean isOpen;
 
     /**
@@ -41,6 +53,7 @@ public class DocumentTypeEntity extends InfraBaseEntity {
      */
     @ColumnType(length = 11)
     @ColumnComment("请求次数")
+    @TableField
     private Integer requestCount;
 
     /**
@@ -48,5 +61,6 @@ public class DocumentTypeEntity extends InfraBaseEntity {
      */
     @ColumnType(length = 1)
     @ColumnComment("是否限流")
+    @TableField
     private Boolean isRateLimited;
 }
