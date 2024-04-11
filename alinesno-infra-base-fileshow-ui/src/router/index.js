@@ -94,9 +94,9 @@ export const constantRoutes = [
         meta: { title: '应用管理', icon: 'dashboard', affix: true }
       }, 
       {
-        path: '/base/fileshow/model/index',
-        component: () => import('@/views/base/fileshow/model/index'),
-        name: '/base/fileshow/model/index',
+        path: '/base/fileshow/type/index',
+        component: () => import('@/views/base/fileshow/type/index'),
+        name: '/base/fileshow/type/index',
         meta: { title: '模型管理', icon: 'dashboard', affix: true }
       }, 
       {
