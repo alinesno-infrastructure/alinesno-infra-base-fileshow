@@ -13,10 +13,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 处理与ApplicationEntity相关的请求的Controller。
@@ -49,6 +47,19 @@ public class ApplicationController extends BaseController<ApplicationEntity, IAp
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
         return this.toPage(model, this.getFeign(), page);
     }
+
+    /**
+     * 保存文件类型
+     * @param applicationId
+     * @param documentStr
+     */
+    @PostMapping("/saveDocumentType")
+    public void saveDocumentType(@Validated @RequestParam String applicationId,
+                                 @Validated @RequestBody String documentStr) {
+        // 在这里调用您的 saveDocumentType 方法，传入 applicationId 和 documentStr
+        service.saveDocumentType(applicationId, documentStr);
+    }
+
 
     @Override
     public IApplicationService getFeign() {

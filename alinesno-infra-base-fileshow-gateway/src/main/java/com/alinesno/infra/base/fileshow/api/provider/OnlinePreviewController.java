@@ -1,5 +1,6 @@
 package com.alinesno.infra.base.fileshow.api.provider;
 
+import com.alinesno.infra.base.fileshow.api.utils.FileParser;
 import com.alinesno.infra.base.fileshow.core.model.FileAttribute;
 import com.alinesno.infra.base.fileshow.core.service.CacheService;
 import com.alinesno.infra.base.fileshow.core.service.FileHandlerService;
@@ -8,16 +9,20 @@ import com.alinesno.infra.base.fileshow.core.service.FilePreviewFactory;
 import com.alinesno.infra.base.fileshow.core.service.impl.OtherFilePreviewImpl;
 import com.alinesno.infra.base.fileshow.core.utils.KkFileUtils;
 import com.alinesno.infra.base.fileshow.core.utils.WebUtils;
+import com.alinesno.infra.base.fileshow.entity.DocumentInfoEntity;
+import com.alinesno.infra.base.fileshow.service.IDocumentInfoService;
+import com.alinesno.infra.common.web.log.annotation.Log;
+import com.alinesno.infra.common.web.log.enums.BusinessType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.opensagres.xdocreport.core.io.IOUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.impl.DefaultRedirectStrategy;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -37,12 +42,16 @@ import java.util.Map;
 
 /**
  * @author yudian-it
+ * @author luoxiaodong
  */
+@Slf4j
 @Controller
 public class OnlinePreviewController {
 
     public static final String BASE64_DECODE_ERROR_MSG = "Base64解码失败，请检查你的 %s 是否采用 Base64 + urlEncode 双重编码了！";
-    private final Logger logger = LoggerFactory.getLogger(OnlinePreviewController.class);
+
+    @Autowired
+    private IDocumentInfoService documentInfoService ;
 
     private final FilePreviewFactory previewFactory;
     private final CacheService cacheService;
@@ -59,6 +68,7 @@ public class OnlinePreviewController {
         this.otherFilePreview = otherFilePreview;
     }
 
+    @Log(title = "文档预览", businessType = BusinessType.OTHER)
     @GetMapping( "/onlinePreview")
     public String onlinePreview(String url, Model model, HttpServletRequest req) {
 
@@ -69,13 +79,29 @@ public class OnlinePreviewController {
             String errorMsg = String.format(BASE64_DECODE_ERROR_MSG, "url");
             return otherFilePreview.notSupportedFile(model, errorMsg);
         }
+
         FileAttribute fileAttribute = fileHandlerService.getFileAttribute(fileUrl, req);  //这里不在进行URL 处理了
         model.addAttribute("file", fileAttribute);
         FilePreview filePreview = previewFactory.get(fileAttribute);
-        logger.info("预览文件url：{}，previewType：{}", fileUrl, fileAttribute.getType());
+
+        // 判断是否开通这个接口服务的权限
+        String applicationId = req.getParameter("appId") ;
+        boolean checkServiceOpen = documentInfoService.checkAccountService(applicationId , fileAttribute.getSuffix()) ;
+        if(!checkServiceOpen){
+            String errorMsg = String.format(BASE64_DECODE_ERROR_MSG, "url");
+            return otherFilePreview.notSupportedFile(model, errorMsg);
+        }
+
+        // 保存文件到数据库中
+        DocumentInfoEntity documentInfoEntity = FileParser.parseFileAttribute(fileAttribute , filePreview) ;
+        documentInfoService.saveDocument(documentInfoEntity) ;
+        
+        log.info("预览文件url：{}，previewType：{}", fileUrl, fileAttribute.getType());
+
         return filePreview.filePreviewHandle(WebUtils.urlEncoderencode(fileUrl), model, fileAttribute);  //统一在这里处理 url
     }
 
+    @Log(title = "图片预览", businessType = BusinessType.OTHER)
     @GetMapping( "/picturesPreview")
     public String picturesPreview(String urls, Model model, HttpServletRequest req) {
         String fileUrls;
@@ -87,7 +113,7 @@ public class OnlinePreviewController {
             String errorMsg = String.format(BASE64_DECODE_ERROR_MSG, "urls");
             return otherFilePreview.notSupportedFile(model, errorMsg);
         }
-        logger.info("预览文件url：{}，urls：{}", fileUrls, urls);
+        log.info("预览文件url：{}，urls：{}", fileUrls, urls);
         // 抽取文件并返回文件列表
         String[] images = fileUrls.split("\\|");
         List<String> imgUrls = Arrays.asList(images);
@@ -110,6 +136,7 @@ public class OnlinePreviewController {
      * @param urlPath  url
      * @param response response
      */
+    @Log(title = "跨域预览", businessType = BusinessType.OTHER)
     @GetMapping("/getCorsFile")
     public void getCorsFile(String urlPath, HttpServletResponse response, FileAttribute fileAttribute) throws IOException {
         URL url;
@@ -117,16 +144,16 @@ public class OnlinePreviewController {
             urlPath = WebUtils.decodeUrl(urlPath);
             url = WebUtils.normalizedURL(urlPath);
         } catch (Exception ex) {
-            logger.error(String.format(BASE64_DECODE_ERROR_MSG, urlPath),ex);
+            log.error(String.format(BASE64_DECODE_ERROR_MSG, urlPath),ex);
             return;
         }
         assert urlPath != null;
         if (!urlPath.toLowerCase().startsWith("http") && !urlPath.toLowerCase().startsWith("https") && !urlPath.toLowerCase().startsWith("ftp")) {
-            logger.info("读取跨域文件异常，可能存在非法访问，urlPath：{}", urlPath);
+            log.info("读取跨域文件异常，可能存在非法访问，urlPath：{}", urlPath);
             return;
         }
         InputStream inputStream = null;
-        logger.info("读取跨域pdf文件url：{}", urlPath);
+        log.info("读取跨域pdf文件url：{}", urlPath);
         if (!urlPath.toLowerCase().startsWith("ftp:")) {
             factory.setConnectionRequestTimeout(2000);
             factory.setConnectTimeout(10000);
@@ -158,7 +185,7 @@ public class OnlinePreviewController {
                 inputStream = (url).openStream();
                 IOUtils.copy(inputStream, response.getOutputStream());
             } catch (IOException e) {
-                logger.error("读取跨域文件异常，url：{}", urlPath);
+                log.error("读取跨域文件异常，url：{}", urlPath);
             } finally {
                 IOUtils.closeQuietly(inputStream);
             }

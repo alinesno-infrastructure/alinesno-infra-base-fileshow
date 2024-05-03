@@ -1,11 +1,11 @@
 package com.alinesno.infra.base.fileshow.entity;
 
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
-import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
-import lombok.Data;
 import com.alinesno.infra.common.facade.mapper.entity.InfraBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
+import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -107,10 +107,10 @@ public class ApplicationEntity extends InfraBaseEntity {
     /**
      * 所开通渠道
      */
-    @TableField("channel_ids")
+    @TableField("document_type")
 	@ColumnType(length=255)
 	@ColumnComment("所开通渠道")
-    private String channelIds;
+    private String documentType ;
 
     /**
      * 应用码
@@ -119,4 +119,5 @@ public class ApplicationEntity extends InfraBaseEntity {
 	@ColumnType(length=50)
 	@ColumnComment("应用码")
     private String appCode;
+
 }

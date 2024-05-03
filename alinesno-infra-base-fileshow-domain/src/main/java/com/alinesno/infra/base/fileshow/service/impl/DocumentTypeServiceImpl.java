@@ -1,15 +1,11 @@
 package com.alinesno.infra.base.fileshow.service.impl;
 
-import com.alinesno.infra.base.fileshow.entity.DocumentInfoEntity;
 import com.alinesno.infra.base.fileshow.entity.DocumentTypeEntity;
-import com.alinesno.infra.base.fileshow.mapper.DocumentInfoMapper;
 import com.alinesno.infra.base.fileshow.mapper.DocumentTypeMapper;
-import com.alinesno.infra.base.fileshow.service.IDocumentInfoService;
 import com.alinesno.infra.base.fileshow.service.IDocumentTypeService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,4 +20,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class DocumentTypeServiceImpl extends IBaseServiceImpl<DocumentTypeEntity, DocumentTypeMapper> implements IDocumentTypeService {
 
+    @Override
+    public boolean isOpenType(String suffix) {
+
+        LambdaQueryWrapper<DocumentTypeEntity> wrapper = new LambdaQueryWrapper<>() ;
+        wrapper.eq(DocumentTypeEntity::getIsOpen , true)
+                .eq(DocumentTypeEntity::getTypeDesc , suffix) ;
+
+        long count = count(wrapper) ;
+
+        return count > 0 ;
+    }
 }

@@ -14,4 +14,11 @@ import com.alinesno.infra.common.facade.services.IBaseService;
 
 public interface IDocumentTypeService extends IBaseService<DocumentTypeEntity> {
 
+    /**
+     * 判断是否打开此类型
+     * @param suffix
+     * @return
+     */
+    boolean isOpenType(String suffix);
+
 }

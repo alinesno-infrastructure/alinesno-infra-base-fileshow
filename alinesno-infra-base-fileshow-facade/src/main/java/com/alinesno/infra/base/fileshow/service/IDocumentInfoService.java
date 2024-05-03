@@ -14,4 +14,17 @@ import com.alinesno.infra.common.facade.services.IBaseService;
 
 public interface IDocumentInfoService extends IBaseService<DocumentInfoEntity> {
 
+    /**
+     * 保存文件
+     * @param documentInfoEntity
+     */
+    void saveDocument(DocumentInfoEntity documentInfoEntity);
+
+    /**
+     * 判断账号是否开通服务
+     * @param applicationId
+     * @return
+     */
+    boolean checkAccountService(String applicationId , String suffix);
+
 }
