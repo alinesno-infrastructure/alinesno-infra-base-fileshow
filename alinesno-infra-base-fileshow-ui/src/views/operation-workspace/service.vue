@@ -57,7 +57,7 @@
       <el-col :span="5">
         <div class="grid-content">
           <div class="panel-header">
-            <div class="header-title"><i class="fa-solid fa-user-nurse"></i> 词库管理统计</div>
+            <div class="header-title"><i class="fa-solid fa-user-nurse"></i> 文档访问统计</div>
           </div>
           <div class="panel-body acp-height-auto">
             <ul class="panel-item-text">
@@ -84,11 +84,11 @@ import * as echarts from "echarts";
 const echart = echarts;
 
 const sensitiveWords = ref([
-      { id: '1', title: '政治敏感词', count: 45 },
-      { id: '2', title: '色情敏感词', count: 145 },
-      { id: '3', title: '暴力敏感词', count: 65 },
-      { id: '5', title: '恐怖主义敏感词', count: 45 },
-      { id: '6', title: '涉暴恐敏感词', count: 45 },
+      { id: '1', title: '文档预览次数', count: 45 },
+      { id: '2', title: '文档类型统计', count: 145 },
+      { id: '3', title: '项目接入统计', count: 65 },
+      { id: '5', title: '开通类型统计', count: 45 },
+      { id: '6', title: '异常访问统计', count: 45 },
     ]);
 
 const resources = ref([

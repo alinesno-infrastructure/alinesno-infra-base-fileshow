@@ -90,6 +90,8 @@ import {
    addDocument
 } from "@/api/base/fileshow/document";
 
+import { getDefaultProject } from "@/api/base/fileshow/project";
+
 import {Base64} from 'js-base64'
 
 const router = useRouter();
@@ -109,6 +111,9 @@ const title = ref("");
 const dateRange = ref([]);
 const postOptions = ref([]);
 const roleOptions = ref([]);
+
+// 默认应用标识
+const defaultProjectCode = ref('')
 
 // 列显隐信息
 const columns = ref([
@@ -213,7 +218,10 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handlePreview(row) {
    var url = row.url ; //要预览文件的访问地址
-   window.open('http://127.0.0.1:30119/onlinePreview?url='+encodeURIComponent(Base64.encode(url)));
+   var projectCode = defaultProjectCode.value ; // 应用id
+   window.open('http://127.0.0.1:30119/onlinePreview?projectCode='+projectCode+'&url='+encodeURIComponent(Base64.encode(url)));
+
+   getList();
 };
 
 /** 提交按钮 */
@@ -237,6 +245,14 @@ function submitForm() {
    });
 };
 
+/** 获取到默认应用id */
+function handleDefaultProject(){
+   getDefaultProject().then(res => {
+      defaultProjectCode.value = res.data ;
+   })
+}
+
+handleDefaultProject() ;
 getList();
 
 </script>

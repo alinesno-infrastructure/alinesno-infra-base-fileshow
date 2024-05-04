@@ -21,4 +21,10 @@ public interface IDocumentTypeService extends IBaseService<DocumentTypeEntity> {
      */
     boolean isOpenType(String suffix);
 
+    /**
+     * 初始化文档结构
+     * @param userId
+     */
+    void initDocumentType(long userId);
+
 }

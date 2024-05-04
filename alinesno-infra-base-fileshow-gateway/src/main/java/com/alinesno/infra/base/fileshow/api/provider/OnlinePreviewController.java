@@ -85,10 +85,10 @@ public class OnlinePreviewController {
         FilePreview filePreview = previewFactory.get(fileAttribute);
 
         // 判断是否开通这个接口服务的权限
-        String applicationId = req.getParameter("appId") ;
-        boolean checkServiceOpen = documentInfoService.checkAccountService(applicationId , fileAttribute.getSuffix()) ;
+        String projectCode = req.getParameter("projectCode") ;
+        boolean checkServiceOpen = documentInfoService.checkAccountService(projectCode , fileAttribute.getSuffix()) ;
         if(!checkServiceOpen){
-            String errorMsg = String.format(BASE64_DECODE_ERROR_MSG, "url");
+            String errorMsg = "appId文档权限不足，请配置查看权限." ;
             return otherFilePreview.notSupportedFile(model, errorMsg);
         }
 

@@ -220,7 +220,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "技术研发体系",
         "hasRecommend": 0,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       },
       {
@@ -252,7 +252,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "项目生成器服务",
         "hasRecommend": 1,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       },
       {
@@ -284,7 +284,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "微服务研发引擎",
         "hasRecommend": 0,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       }
     ],
@@ -297,7 +297,7 @@ const screenJsonList = [
     "tenantId": "0",
     "fieldProp": "integration",
     "id": "aae9c0e5bbe9ac17171e069c027dad2a",
-    "applicationId": null,
+    "projectId": null,
     "operatorId": "784553886277959680",
     "applicationName": null,
     "fieldId": null,
@@ -342,7 +342,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": " 多渠道通知服务 ",
         "hasRecommend": 1,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       },
       {
@@ -374,7 +374,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "分布式消息服务",
         "hasRecommend": 1,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       },
       {
@@ -406,7 +406,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "安全验证码服务",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       },
       {
@@ -438,7 +438,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "文档查看服务",
         "hasRecommend": 1,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       },
       {
@@ -470,7 +470,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "权限资源引擎服务",
         "hasRecommend": 1,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       },
       {
@@ -502,7 +502,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "单点登陆管理",
         "hasRecommend": 1,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       },
       {
@@ -534,7 +534,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "公共存储服务",
         "hasRecommend": 1,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       }
     ],
@@ -547,7 +547,7 @@ const screenJsonList = [
     "tenantId": "0",
     "fieldProp": "integration",
     "id": "e7eb9a5acf75b02b80b1bb0ec1dbd71a",
-    "applicationId": null,
+    "projectId": null,
     "operatorId": "784553886277959680",
     "applicationName": null,
     "fieldId": null,
@@ -592,7 +592,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "数据采集总线",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       },
       {
@@ -624,7 +624,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "一体化安全触感服务",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       }
     ],
@@ -637,7 +637,7 @@ const screenJsonList = [
     "tenantId": "0",
     "fieldProp": "integration",
     "id": "214f92e4267f5dca79b129351f884f3f",
-    "applicationId": null,
+    "projectId": null,
     "operatorId": "784553886277959680",
     "applicationName": null,
     "fieldId": null,
@@ -682,7 +682,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "配置管理服务",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       },
       {
@@ -714,7 +714,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "审计日志服务",
         "hasRecommend": 1,
-        "applicationId": "0",
+        "projectId": "0",
         "shortName": null
       },
       {
@@ -746,7 +746,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "自动化操作服务",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       }
     ],
@@ -759,7 +759,7 @@ const screenJsonList = [
     "tenantId": "0",
     "fieldProp": "integration",
     "id": "5e33fa098910e77c8334d1d8c668dd69",
-    "applicationId": null,
+    "projectId": null,
     "operatorId": "784553886277959680",
     "applicationName": null,
     "fieldId": null,
@@ -804,7 +804,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "容器云管理平台",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       }
     ],
@@ -817,7 +817,7 @@ const screenJsonList = [
     "tenantId": "0",
     "fieldProp": "integration",
     "id": "8beaa35a097bf2cd7bdc9714e41336e2",
-    "applicationId": null,
+    "projectId": null,
     "operatorId": "784553886277959680",
     "applicationName": null,
     "fieldId": null,
@@ -862,7 +862,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "自动化操作服务",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       },
       {
@@ -894,7 +894,7 @@ const screenJsonList = [
         "tenantId": "0",
         "name": "持续集成服务",
         "hasRecommend": 0,
-        "applicationId": null,
+        "projectId": null,
         "shortName": null
       }
     ],
@@ -907,7 +907,7 @@ const screenJsonList = [
     "tenantId": "0",
     "fieldProp": "integration",
     "id": "ea82737f643d66b4b702cfd098a82d62",
-    "applicationId": null,
+    "projectId": null,
     "operatorId": "784553886277959680",
     "applicationName": null,
     "fieldId": null,

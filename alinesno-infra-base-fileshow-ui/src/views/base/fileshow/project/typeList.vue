@@ -1,5 +1,5 @@
 <template>
-   <div class="app-container">
+   <div>
       <el-row :gutter="20">
          <!--应用数据-->
          <el-col :span="24" :xs="24">
@@ -7,34 +7,14 @@
                <el-form-item label="应用名称" prop="typeName">
                   <el-input v-model="queryParams.typeName" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
                </el-form-item>
-               <el-form-item label="应用名称" prop="typeName">
-                  <el-input v-model="queryParams['condition[typeName|like]']" placeholder="请输入应用名称" clearable style="width: 240px" @keyup.enter="handleQuery" />
-               </el-form-item>
                <el-form-item>
                   <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
                   <el-button icon="Refresh" @click="resetQuery">重置</el-button>
                </el-form-item>
             </el-form>
 
-            <el-row :gutter="10" class="mb8">
-
-               <!-- <el-col :span="1.5">
-                  <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-               </el-col> -->
-
-               <el-col :span="1.5">
-                  <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate">修改</el-button>
-               </el-col>
-
-               <!-- <el-col :span="1.5">
-                  <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete">删除</el-button>
-               </el-col> -->
-
-               <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
-            </el-row>
-
             <el-table v-loading="loading" :data="TypeList" @selection-change="handleSelectionChange">
-               <el-table-column type="index" width="50" align="center" />
+               <el-table-column type="selection" width="50" align="center" />
                <el-table-column label="图标" align="center" width="70" key="icon" v-if="columns[5].visible">
                   <template #default="scope">
                      <span style="font-size:25px;color:#3b5998">
@@ -46,47 +26,6 @@
                <!-- 业务字段-->
                <el-table-column label="类型名称" align="center" width="150" key="typeName" prop="typeName" v-if="columns[0].visible" />
                <el-table-column label="类型描述" align="left" key="typeDesc" prop="typeDesc" v-if="columns[0].visible" />
-               <el-table-column label="是否开启" align="center" width="200" key="isOpen" prop="isOpen" v-if="columns[1].visible" :show-overflow-tooltip="true" >
-                  <template #default="scope">
-                     <el-switch
-                        v-model="scope.row.isOpen"
-                        :active-value="1"
-                        :inactive-value="0"
-                        @change="handleChangStatusField('isOpen' , scope.row.isOpen, scope.row.id)"
-                     />
-                  </template>
-               </el-table-column>
-               <el-table-column label="请求次数" align="center" width="300" key="requestCount" prop="requestCount" v-if="columns[2].visible" :show-overflow-tooltip="true">
-                  <template #default="scope">
-                     <span v-if="scope.row.isRateLimited == 1">
-                        <el-button type="primary" bg text> <i class="fa-solid fa-link"></i>{{ scope.row.requestCount }}/分</el-button>
-                     </span>
-                     <span v-else>
-                        <el-button type="danger" bg text> <i class="fa-solid fa-link"></i>  不限流</el-button>
-                     </span>
-                  </template>
-               </el-table-column>
-
-               <el-table-column label="限流" align="center" width="100" key="isRateLimited" prop="isRateLimited" v-if="columns[3].visible" :show-overflow-tooltip="true" >
-                  <template #default="scope">
-                     <el-switch
-                        v-model="scope.row.isRateLimited"
-                        :active-value="1"
-                        :inactive-value="0"
-                        @change="handleChangStatusField('isRateLimited' , scope.row.isRateLimited, scope.row.id)"
-                     />
-                  </template>
-               </el-table-column>
-
-               <!-- 操作字段  -->
-               <el-table-column label="操作" align="center" width="100" class-name="small-padding fixed-width">
-                  <template #default="scope">
-                     <el-tooltip content="配置" placement="top" v-if="scope.row.id !== 1">
-                        <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:Type:edit']"></el-button>
-                     </el-tooltip>
-                  </template>
-
-               </el-table-column>
             </el-table>
             <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
          </el-col>
@@ -141,7 +80,7 @@ import {
    getType,
    updateType,
    addType , 
-   changStatusField 
+   changStatusField
 } from "@/api/base/fileshow/type";
 
 const router = useRouter();
@@ -160,6 +99,9 @@ const title = ref("");
 const dateRange = ref([]);
 const postOptions = ref([]);
 const roleOptions = ref([]);
+
+// 判断是否在点击弹窗确认按钮时才调用接口
+const tags = ref('')
 
 // 列显隐信息
 const columns = ref([

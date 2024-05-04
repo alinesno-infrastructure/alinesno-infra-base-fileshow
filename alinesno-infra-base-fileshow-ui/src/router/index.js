@@ -88,10 +88,10 @@ export const constantRoutes = [
       
       // >>>>>>>>>>>>>> smart_router_start >>>>>>>>>>>>>>>>>>>>>
       {
-        path: '/base/fileshow/application/index',
-        component: () => import('@/views/base/fileshow/application/index'),
-        name: '/base/fileshow/application/index',
-        meta: { title: '应用管理', icon: 'dashboard', affix: true }
+        path: '/base/fileshow/project/index',
+        component: () => import('@/views/base/fileshow/project/index'),
+        name: '/base/fileshow/project/index',
+        meta: { title: '项目管理', icon: 'dashboard', affix: true }
       }, 
       {
         path: '/base/fileshow/document/index',

@@ -5,13 +5,13 @@ import com.alinesno.infra.base.fileshow.service.IDocumentTypeService;
 import com.alinesno.infra.common.core.constants.SpringInstanceScope;
 import com.alinesno.infra.common.facade.pageable.DatatablesPageBean;
 import com.alinesno.infra.common.facade.pageable.TableDataInfo;
+import com.alinesno.infra.common.web.adapter.login.account.CurrentAccountJwt;
 import com.alinesno.infra.common.web.adapter.rest.BaseController;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
@@ -49,6 +49,15 @@ public class DocumentTypeController extends BaseController<DocumentTypeEntity, I
     @PostMapping("/datatables")
     public TableDataInfo datatables(HttpServletRequest request, Model model, DatatablesPageBean page) {
         log.debug("page = {}", ToStringBuilder.reflectionToString(page));
+
+        long userId = CurrentAccountJwt.getUserId();
+        long countGitRepository = service.count(new LambdaQueryWrapper<DocumentTypeEntity>().eq(DocumentTypeEntity::getOperatorId , userId));
+
+        // 初始化用户仓库
+        if (countGitRepository == 0) {
+            service.initDocumentType(CurrentAccountJwt.getUserId());
+        }
+
         return this.toPage(model, this.getFeign(), page);
     }
 

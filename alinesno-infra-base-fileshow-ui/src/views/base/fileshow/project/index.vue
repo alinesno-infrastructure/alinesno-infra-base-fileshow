@@ -31,18 +31,37 @@
                <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
             </el-row>
 
-            <el-table v-loading="loading" :data="ApplicationList" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="ProjectList" @selection-change="handleSelectionChange">
                <el-table-column type="selection" width="50" align="center" />
-               <el-table-column label="图标" align="center" width="80" key="status" v-if="columns[5].visible">
+               <el-table-column label="图标" align="center" width="70" key="icon" v-if="columns[5].visible">
+                  <template #default="scope">
+                     <span style="font-size:25px;color:#3b5998">
+                        <i class="fa-solid fa-file-word" />
+                     </span>
+                  </template>
                </el-table-column>
 
                <!-- 业务字段-->
-               <el-table-column label="应用名称" align="center" key="applicationName" prop="applicationName" v-if="columns[0].visible" />
-               <el-table-column label="应用描述" align="center" key="intro" prop="intro" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="授权地址" align="center" key="allow_url" prop="allowUrl" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="类型" align="center" key="dbType" prop="dbType" v-if="columns[3].visible" :show-overflow-tooltip="true" />
-               <el-table-column label="是否公开" align="center" key="isPublic" prop="isPublic" v-if="columns[4].visible" width="120" />
-               <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible" />
+               <el-table-column label="应用名称" align="left" key="projectName" prop="projectName" v-if="columns[0].visible" />
+               <el-table-column label="应用描述" align="left" key="projectDesc" prop="projectDesc" v-if="columns[1].visible" />
+               <el-table-column label="应用代码" align="center" width="200" key="projectCode" prop="projectCode" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+
+               <el-table-column label="配置文档" align="center" width="200" key="documentType" prop="documentType" v-if="columns[1].visible" :show-overflow-tooltip="true" >
+                  <template #default="scope">
+                     <el-button type="primary" bg text @click="handleConfigType(scope.row.id , scope.row.documentType)"> <i class="fa-solid fa-link"></i> 配置文档 </el-button>
+                  </template>
+               </el-table-column>
+
+               <el-table-column label="关闭" align="center" width="100" key="hasStatus" prop="hasStatus" v-if="columns[1].visible" :show-overflow-tooltip="true" >
+                  <template #default="scope">
+                     <el-switch
+                        v-model="scope.row.hasStatus"
+                        :active-value="1"
+                        :inactive-value="0"
+                        @change="handleChangStatusField('hasStatus' , scope.row.hasStatus, scope.row.id)"
+                     />
+                  </template>
+               </el-table-column>
 
                <el-table-column label="添加时间" align="center" prop="addTime" v-if="columns[6].visible" width="160">
                   <template #default="scope">
@@ -53,13 +72,13 @@
                <!-- 操作字段  -->
                <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
                   <template #default="scope">
-                     <el-tooltip content="修改" placement="top" v-if="scope.row.ApplicationId !== 1">
+                     <el-tooltip content="修改" placement="top" v-if="scope.row.ProjectId !== 1">
                         <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
-                           v-hasPermi="['system:Application:edit']"></el-button>
+                           v-hasPermi="['system:Project:edit']"></el-button>
                      </el-tooltip>
-                     <el-tooltip content="删除" placement="top" v-if="scope.row.ApplicationId !== 1">
+                     <el-tooltip content="删除" placement="top" v-if="scope.row.ProjectId !== 1">
                         <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
-                           v-hasPermi="['system:Application:remove']"></el-button>
+                           v-hasPermi="['system:Project:remove']"></el-button>
                      </el-tooltip>
                   </template>
 
@@ -112,8 +131,8 @@
                   </el-form-item>
                </el-col>
                <el-col :span="24">
-                  <el-form-item label="应用名称" prop="applicationName">
-                     <el-input v-model="form.applicationName" placeholder="请输入应用名称" maxlength="50" />
+                  <el-form-item label="应用名称" prop="projectName">
+                     <el-input v-model="form.projectName" placeholder="请输入应用名称" maxlength="50" />
                   </el-form-item>
                </el-col>
             </el-row>
@@ -176,25 +195,41 @@
          </template>
       </el-dialog>
 
+
+      <!-- 文档列表 -->
+      <el-dialog :title="title" v-model="openDocumentTypeDialog" width="1024px" append-to-body>
+
+         <TypeList />
+
+         <template #footer>
+            <div class="dialog-footer">
+               <el-button type="primary" @click="submitDocumentTypeForm">确 定</el-button>
+               <el-button @click="openDocumentTypeDialog = false">取 消</el-button>
+            </div>
+         </template>
+      </el-dialog>
+
    </div>
 </template>
 
-<script setup name="Application">
+<script setup name="Project">
 
 import {
-   listApplication,
-   delApplication,
-   getApplication,
-   updateApplication,
-   addApplication
-} from "@/api/base/fileshow/application";
+   listProject,
+   delProject,
+   getProject,
+   updateProject,
+   addProject,
+   changStatusField
+} from "@/api/base/fileshow/project";
+
+import TypeList from './typeList'
 
 const router = useRouter();
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable, sys_user_sex } = proxy.useDict("sys_normal_disable", "sys_user_sex");
 
 // 定义变量
-const ApplicationList = ref([]);
+const ProjectList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -204,8 +239,9 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 const dateRange = ref([]);
-const postOptions = ref([]);
-const roleOptions = ref([]);
+
+// 是否打开配置文档
+const openDocumentTypeDialog = ref(false);
 
 // 列显隐信息
 const columns = ref([
@@ -241,9 +277,9 @@ const { queryParams, form, rules } = toRefs(data);
 /** 查询应用列表 */
 function getList() {
    loading.value = true;
-   listApplication(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
+   listProject(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
       loading.value = false;
-      ApplicationList.value = res.rows;
+      ProjectList.value = res.rows;
       total.value = res.total;
    });
 };
@@ -264,9 +300,9 @@ function resetQuery() {
 };
 /** 删除按钮操作 */
 function handleDelete(row) {
-   const ApplicationIds = row.id || ids.value;
-   proxy.$modal.confirm('是否确认删除应用编号为"' + ApplicationIds + '"的数据项？').then(function () {
-      return delApplication(ApplicationIds);
+   const ProjectIds = row.id || ids.value;
+   proxy.$modal.confirm('是否确认删除应用编号为"' + ProjectIds + '"的数据项？').then(function () {
+      return delProject(ProjectIds);
    }).then(() => {
       getList();
       proxy.$modal.msgSuccess("删除成功");
@@ -285,7 +321,7 @@ function reset() {
    form.value = {
       id: undefined,
       deptId: undefined,
-      ApplicationName: undefined,
+      ProjectName: undefined,
       nickName: undefined,
       password: undefined,
       phonenumber: undefined,
@@ -310,8 +346,8 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
    reset();
-   const ApplicationId = row.id || ids.value;
-   getApplication(ApplicationId).then(response => {
+   const ProjectId = row.id || ids.value;
+   getProject(ProjectId).then(response => {
       form.value = response.data;
       open.value = true;
       title.value = "修改应用";
@@ -322,14 +358,14 @@ function handleUpdate(row) {
 function submitForm() {
    proxy.$refs["databaseRef"].validate(valid => {
       if (valid) {
-         if (form.value.ApplicationId != undefined) {
-            updateApplication(form.value).then(response => {
+         if (form.value.ProjectId != undefined) {
+            updateProject(form.value).then(response => {
                proxy.$modal.msgSuccess("修改成功");
                open.value = false;
                getList();
             });
          } else {
-            addApplication(form.value).then(response => {
+            addProject(form.value).then(response => {
                proxy.$modal.msgSuccess("新增成功");
                open.value = false;
                getList();
@@ -338,6 +374,30 @@ function submitForm() {
       }
    });
 };
+
+/** 配置文档类型 */
+function handleConfigType(id , documentType){
+   openDocumentTypeDialog.value = true ; 
+}
+
+/** 修改状态 */
+const handleChangStatusField = async(field , value , id) => {
+    // 判断tags值 这样就不会进页面时调用了
+      const res = await changStatusField({
+         field: field,
+         value: value?1:0,
+         id: id
+      }).catch(() => { })
+      if (res && res.code == 200) {
+         // 刷新表格
+         getList()
+      }
+}
+
+/** 提交配置文档类型 */
+function submitDocumentTypeForm(){
+   // TODO 待保存应用文档类型
+}
 
 getList();
 

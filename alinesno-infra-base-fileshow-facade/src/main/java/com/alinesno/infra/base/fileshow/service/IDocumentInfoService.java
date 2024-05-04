@@ -22,9 +22,9 @@ public interface IDocumentInfoService extends IBaseService<DocumentInfoEntity> {
 
     /**
      * 判断账号是否开通服务
-     * @param applicationId
+     * @param appCode
      * @return
      */
-    boolean checkAccountService(String applicationId , String suffix);
+    boolean checkAccountService(String appCode , String suffix);
 
 }

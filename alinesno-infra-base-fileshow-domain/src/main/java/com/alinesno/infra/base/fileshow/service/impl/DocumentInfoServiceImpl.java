@@ -2,7 +2,7 @@ package com.alinesno.infra.base.fileshow.service.impl;
 
 import com.alinesno.infra.base.fileshow.entity.DocumentInfoEntity;
 import com.alinesno.infra.base.fileshow.mapper.DocumentInfoMapper;
-import com.alinesno.infra.base.fileshow.service.IApplicationService;
+import com.alinesno.infra.base.fileshow.service.IProjectService;
 import com.alinesno.infra.base.fileshow.service.IDocumentInfoService;
 import com.alinesno.infra.base.fileshow.service.IDocumentTypeService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
@@ -26,7 +26,7 @@ import java.util.List;
 public class DocumentInfoServiceImpl extends IBaseServiceImpl<DocumentInfoEntity, DocumentInfoMapper> implements IDocumentInfoService {
 
 	@Autowired
-	private IApplicationService applicationService ;
+	private IProjectService applicationService ;
 
 	@Autowired
 	private IDocumentTypeService documentTypeService ;
@@ -51,7 +51,7 @@ public class DocumentInfoServiceImpl extends IBaseServiceImpl<DocumentInfoEntity
 	}
 
 	@Override
-	public boolean checkAccountService(String applicationId , String suffix) {
+	public boolean checkAccountService(String appCode , String suffix) {
 
 		// 1.判断是否开启这个查看类型
 		boolean isOpenType = documentTypeService.isOpenType(suffix) ;
@@ -60,7 +60,7 @@ public class DocumentInfoServiceImpl extends IBaseServiceImpl<DocumentInfoEntity
 		}
 
 		// 2.判断应用是否包含这个类型
-		List<String> typeList = applicationService.getDocumentType(applicationId) ;
-		return typeList.contains(suffix) ;
+		List<String> typeList = applicationService.getDocumentType(appCode) ;
+		return typeList.contains(suffix.toUpperCase()) ;
 	}
 }

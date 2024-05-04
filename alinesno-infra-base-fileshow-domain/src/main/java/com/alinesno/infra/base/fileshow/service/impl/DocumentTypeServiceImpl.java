@@ -1,12 +1,16 @@
 package com.alinesno.infra.base.fileshow.service.impl;
 
 import com.alinesno.infra.base.fileshow.entity.DocumentTypeEntity;
+import com.alinesno.infra.base.fileshow.enums.DocumentTypeEnum;
 import com.alinesno.infra.base.fileshow.mapper.DocumentTypeMapper;
 import com.alinesno.infra.base.fileshow.service.IDocumentTypeService;
 import com.alinesno.infra.common.core.service.impl.IBaseServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -24,11 +28,35 @@ public class DocumentTypeServiceImpl extends IBaseServiceImpl<DocumentTypeEntity
     public boolean isOpenType(String suffix) {
 
         LambdaQueryWrapper<DocumentTypeEntity> wrapper = new LambdaQueryWrapper<>() ;
-        wrapper.eq(DocumentTypeEntity::getIsOpen , true)
-                .eq(DocumentTypeEntity::getTypeDesc , suffix) ;
+        wrapper.eq(DocumentTypeEntity::getIsOpen , 1)
+                .eq(DocumentTypeEntity::getTypeName, suffix.toUpperCase()) ;
 
         long count = count(wrapper) ;
 
         return count > 0 ;
+    }
+
+    @Override
+    public void initDocumentType(long userId) {
+
+        List<DocumentTypeEntity> documentTypes = new ArrayList<>();
+
+        for(DocumentTypeEnum type : DocumentTypeEnum.getAllDocumentTypes()){
+
+            DocumentTypeEntity typeE = new DocumentTypeEntity(
+                    type.getIcon(),
+                    type.getName(),
+                    type.getDesc(), true, 100, false) ;
+
+            typeE.setOperatorId(userId);
+
+            documentTypes.add(typeE) ;
+        }
+
+        this.remove(new LambdaQueryWrapper<DocumentTypeEntity>()
+                .eq(DocumentTypeEntity::getOperatorId, userId)
+                .in(DocumentTypeEntity::getTypeName , DocumentTypeEnum.getAllNames())) ;
+
+        saveBatch(documentTypes) ;
     }
 }

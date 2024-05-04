@@ -1,8 +1,8 @@
 <template>
    <div class="app-container">
     <div class="label-title">
-      <div class="tip">单点登陆配置</div>
-      <div class="sub-tip">根据企业和团队自定义单点登陆配置</div>
+      <div class="tip">文档查看配置</div>
+      <div class="sub-tip">自定义文档查看配置和管理</div>
     </div>
     <div class="form-container" >
       <el-form
@@ -14,13 +14,11 @@
         class="demo-form"
       >
 
-        <el-form-item label="品牌代码" prop="themeCode">
-          <el-input type="input" show-word-limit v-model="form.themeCode" readonly placeholder="请输入主题代码">
-            <el-button slot="append" @click="configTheme()" icon="el-icon-edit">配置品牌</el-button>
-          </el-input>
+        <el-form-item label="异常提示信息" prop="themeCode">
+          <el-input type="input" show-word-limit v-model="form.themeCode" readonly placeholder="请输入主题代码" />
         </el-form-item>
 
-        <el-form-item label="登录框版本选择" prop="loginStyle">
+        <el-form-item label="限制界面选择" prop="loginStyle">
           <el-row>
             <el-col :span="7" v-for="(o, index) in loginStyle" :key="index" :offset="index > 0 ? 1 : 0">
 
@@ -37,41 +35,23 @@
           </el-row>
         </el-form-item>
 
-        <el-form-item label="显示社会化登录">
+        <el-form-item label="是否存储文档">
           <el-switch v-model="form.enableSociety"
             :active-value="1"
             :inactive-value="0"
           ></el-switch>
         </el-form-item>
 
-        <el-form-item label="错误次数" prop="errorCount">
-          <el-input-number type="input" maxlength="500" :min="1" :max="10" show-word-limit v-model="form.errorCount" >
-              <template slot="append">次</template>
-          </el-input-number>
+        <el-form-item label="存储天数" prop="errorCount">
+          <el-input-number type="input" maxlength="500" :min="1" :max="10" show-word-limit v-model="form.errorCount" ></el-input-number>
         </el-form-item>
 
-        <el-form-item label="锁定时长" prop="lockTime">
-          <el-input-number type="input" maxlength="500" show-word-limit v-model="form.lockTime" >
-              <template slot="append">分钟</template>
-          </el-input-number>
+        <el-form-item label="文件大小限制" prop="lockTime">
+          <el-input-number type="input" maxlength="500" show-word-limit v-model="form.lockTime" ></el-input-number>
         </el-form-item>
 
-        <el-form-item label="显示忘记密码">
-          <el-switch v-model="form.enableFindPwd"
-            :active-value="1"
-            :inactive-value="0"
-          ></el-switch>
-        </el-form-item>
-
-        <el-form-item label="默认首页" prop="defaultIndex">
+        <el-form-item label="禁止访问IP" prop="defaultIndex">
           <el-input type="input" maxlength="500" show-word-limit v-model="form.defaultIndex" placeholder="请输入默认首页"></el-input>
-        </el-form-item>
-
-        <el-form-item label="是否开启登陆验证码">
-          <el-switch v-model="form.enableValidate"
-            :active-value="1"
-            :inactive-value="0"
-          ></el-switch>
         </el-form-item>
 
         <br/>

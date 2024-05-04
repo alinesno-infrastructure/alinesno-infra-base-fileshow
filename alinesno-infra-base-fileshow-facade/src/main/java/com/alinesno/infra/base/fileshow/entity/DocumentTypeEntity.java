@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnComment;
 import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
+import lombok.NoArgsConstructor;
 
 /**
  * 文档类型
@@ -14,6 +15,7 @@ import com.gitee.sunchenbin.mybatis.actable.annotation.ColumnType;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("document_type")
+@NoArgsConstructor
 public class DocumentTypeEntity extends InfraBaseEntity {
 
     /**
@@ -46,7 +48,7 @@ public class DocumentTypeEntity extends InfraBaseEntity {
     @ColumnType(length = 1)
     @ColumnComment("是否打开")
     @TableField
-    private Boolean isOpen;
+    private Integer isOpen;
 
     /**
      * 请求次数
@@ -62,5 +64,15 @@ public class DocumentTypeEntity extends InfraBaseEntity {
     @ColumnType(length = 1)
     @ColumnComment("是否限流")
     @TableField
-    private Boolean isRateLimited;
+    private Integer isRateLimited;
+
+    public DocumentTypeEntity(String icon, String typeName, String typeDesc, boolean isOpen, int requestCount, boolean isRateLimited) {
+        this.icon = icon;
+        this.typeName = typeName;
+        this.typeDesc = typeDesc;
+        this.isOpen = isOpen?1:0;
+        this.requestCount = requestCount;
+        this.isRateLimited = isRateLimited?1:0;
+    }
+
 }

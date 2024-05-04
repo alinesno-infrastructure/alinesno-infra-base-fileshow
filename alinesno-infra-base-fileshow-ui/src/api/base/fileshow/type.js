@@ -24,6 +24,15 @@ var managerUrl = {
     downloadfile: prefix + "downloadfile"
 }
 
+// 修改字段
+export function changStatusField(data){
+  return request({
+    url: managerUrl.changeField ,
+    method: 'post',
+    data: data
+  })
+}
+
 // 查询数据库列表
 export function listType(query) {
   return request({
